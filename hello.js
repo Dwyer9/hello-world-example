@@ -1,17 +1,20 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
-
-const showEnglishView = (req, res) => {
-  res.render("hello-world-english");
-};
 
 app.set("views", "./views");
 app.set("view engine", "pug");
 
 app.use(express.static("public"));
+app.use(morgan("common"));
 
-app.get("/", showEnglishView);
-app.get("/english", showEnglishView);
+app.get("/", (req, res) => {
+  res.redirect("/english");
+});
+
+app.get("/english", (req, res) => {
+  res.render("hello-world-english");
+});
 
 app.get("/french", (req, res) => {
   res.render("hello-world-french");
