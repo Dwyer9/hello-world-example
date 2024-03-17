@@ -8,20 +8,33 @@ app.set("view engine", "pug");
 app.use(express.static("public"));
 app.use(morgan("common"));
 
+app.locals.currentPathClass = (path, currentPath) => {
+  return path === currentPath ? "current" : "";
+};
+
 app.get("/", (req, res) => {
   res.redirect("/english");
 });
 
 app.get("/english", (req, res) => {
-  res.render("hello-world-english");
+  res.render("hello-world-english", {
+    currentPath: req.path,
+    language: "en-US",
+  });
 });
 
 app.get("/french", (req, res) => {
-  res.render("hello-world-french");
+  res.render("hello-world-french", {
+    currentPath: req.path,
+    language: "fr-FR",
+  });
 });
 
 app.get("/serbian", (req, res) => {
-  res.render("hello-world-serbian");
+  res.render("hello-world-serbian", {
+    currentPath: req.path,
+    language: "sr-Cyrl-rs",
+  });
 });
 
 app.listen(3000, "localhost", () => {
